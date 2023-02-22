@@ -1,0 +1,45 @@
+--Create a photography store database
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT, aisle INTEGER, price INTEGER, warantee TEXT); 
+
+INSERT INTO store VALUES (1, "Nikon Camera", 1, 500, "Y");
+insert INTO store VALUES (2, "Canon Camera", 1, 350, "Y");
+INSERT INTO store VALUES (3, "Camera Cover", 1, 90, "N");
+INSERT INTO store VALUES (4, "Camera Strap", 1, 50, "N");
+INSERT INTO store VALUES (5, "Camera Bag", 1, 150, "N");
+INSERT INTO store VALUES (6, "Lens", 1, 250, "Y");
+INSERT INTO store VALUES (7, "TRIPOD", 1, 190, "N");
+INSERT INTO store VALUES (8, "Props", 3, 35, "N");
+INSERT INTO store VALUES (9, "Costume", 3, 60, "N");
+INSERT INTO store VALUES (10, "Cleaning Spray", 2, 20, "N");
+INSERT INTO store VALUES (11, "Lens Cloth", 1, 15, "N");
+INSERT INTO store VALUES (12, "Disposable Camera", 2, 19, "N");
+INSERT INTO store VALUES (13, "Photography Books", 2, 60, "N");
+INSERT INTO store VALUES (14, "Planner", 2, 29, "N");
+INSERT INTO store VALUES (15, "Pen", 1, 190, "N");
+INSERT INTO store VALUES (16, "Private Lesson", 1, 80, "N");
+
+--display all items in store
+SELECT * FROM store;
+
+--display the database ordered by price
+SELECT * FROM store
+ORDER BY price desc;
+
+--what is the sum of all items in store?
+SELECT SUM(price) FROM store;
+
+--what is the avg price of items in aisle 1?
+SELECT AVG(price) "avg isle price"
+FROM store
+WHERE aisle='1';
+
+--which products offer warantee?
+SELECT *
+FROM store
+WHERE warantee='Y';
+
+--which products do not offer warantee?
+SELECT *
+FROM store
+WHERE warantee='N';
