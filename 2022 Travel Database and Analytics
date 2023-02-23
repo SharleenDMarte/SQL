@@ -1,0 +1,36 @@
+--Create database of 2022 travel destinations 
+
+CREATE TABLE trips_2022 (id INTEGER PRIMARY KEY, place TEXT,
+duration INTEGER,
+cost INTEGER);
+
+INSERT INTO trips_2022 VALUES (1, "PA", 3, 500);
+INSERT INTO trips_2022 VALUES (2, "ATL", 2, 175);
+INSERT INTO trips_2022 VALUES (3, "FL", 1, 350);
+INSERT INTO trips_2022 VALUES (4, "NYC", 3, 600);
+INSERT INTO trips_2022 VALUES (5, "MX", 4, 1000);
+
+--display all trips
+SELECT * FROM trips_2022; 
+
+--which trips lasted longer than 2 days?
+SELECT * FROM trips_2022 WHERE duration >2;
+
+--which trips lasted longer than 1 day and cost more than $175?
+SELECT * FROM trips_2022 WHERE duration >1 AND cost >175; 
+
+--return place rating when duration is met 
+SELECT place,
+CASE
+WHEN duration <2 THEN "good"
+WHEN duration >3 THEN "great"
+ELSE "basic"
+END as "rating"
+FROM trips_2022
+GROUP BY place;
+
+--what was the most amount spent?
+SELECT MAX(cost) AS most_expensive FROM trips_2022; 
+
+--show trips that need increase duration 
+SELECT MIN(duration) AS need_increase FROM trips_2022;
