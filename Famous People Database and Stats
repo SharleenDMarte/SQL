@@ -1,0 +1,64 @@
+--Create famous people database 
+
+CREATE TABLE famous_people (id integer PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER);
+
+INSERT INTO famous_people (id, name, age) VALUES (1, "Tarus Riley", 50);
+INSERT INTO famous_people (id, name, age) VALUES (2, "Tracee Elis Ross", 45);
+INSERT INTO famous_people (id, name, age) VALUES (3, "oliver samuels", 74);
+INSERT INTO famous_people (id, name, age) VALUES (4, "damion marley", 44);
+INSERT INTO famous_people (id, name, age) VALUES (5, "warren buffet", 92);
+INSERT INTO famous_people (id, name, age) VALUES (6, "rhianna", 35);
+INSERT INTO famous_people (id, name, age) VALUES (7, "dolly parton", 77);
+INSERT INTO famous_people (id, name, age) VALUES (8, "paul campbell", 43);
+INSERT INTO famous_people (id, name, age) VALUES (9, "usain bolt", 36);
+INSERT INTO famous_people (id, name, age) VALUES (10, "damond john", 54);
+INSERT INTO famous_people (id, name, age) VALUES (11, "morgan freeman", 85);
+INSERT INTO famous_people (id, name, age) VALUES (12, "emma watson", 32);
+INSERT INTO famous_people (id, name, age) VALUES (13, "tanya stephens", 49);
+INSERT INTO famous_people (id, name, age)VALUES (14, "karen kerr", 39);
+INSERT INTO famous_people (id, name, age) VALUES (15, "scarlett johanson", 38);
+
+CREATE TABLE industry (id integer PRIMARY KEY AUTOINCREMENT, specialty TEXT, country TEXT);
+
+INSERT INTO industry (id, specialty, country) VALUES (1, "reggae singer", "jamaica");
+INSERT INTO industry (id, specialty, country) VALUES (2, "actress", "US");
+INSERT INTO industry (id, specialty, country) VALUES (3, "actor", "jamaica");
+INSERT INTO industry (id, specialty, country) VALUES (4, "reggae singer", "jamaica");
+INSERT INTO industry (id, specialty, country) VALUES (5, "Investor", "US");
+INSERT INTO industry (id, specialty, country) VALUES (6, "singer", "US");
+INSERT INTO industry (id, specialty, country) VALUES (7, "singer", "US");
+INSERT INTO industry (id, specialty, country) VALUES (8, "actor", "jamaica");
+INSERT INTO industry (id, specialty,country) VALUES (9, "investor", "jamaica");
+INSERT INTO industry (id, specialty, country) VALUES (10, "investor", "US");
+INSERT INTO industry (id, specialty, country) VALUES (11, "actor", "US");
+INSERT INTO industry (id, specialty, country) VALUES (12, "actress", "US");
+INSERT INTO industry (id, specialty, country) VALUES (13, "reggae singer", "jamaica");
+INSERT INTO industry (id, specialty, country) VALUES (14, "investor", "US");
+INSERT INTO industry (id, specialty, country) VALUES (15, "actress", "US");
+
+--display all data in seperate tables
+SELECT * FROM famous_people;
+SELECT * FROM industry;
+
+--display data from both tables in one table 
+SELECT famous_people.name, famous_people.age, industry.specialty, industry.country
+FROM famous_people
+JOIN industry
+ON industry.id = famous_people.id
+
+--who lives in Jamaica?
+SELECT famous_people.name, industry.specialty, industry.country
+FROM famous_people
+LEFT JOIN industry
+ON industry.id = famous_people.id
+WHERE country = "jamaica";
+
+--who are the people who are over the age of 50?
+SELECT famous_people.name, famous_people.age, industry.specialty
+FROM famous_people
+LEFT JOIN industry
+ON industry.id = famous_people.id
+WHERE age  > 50
+
+
+
