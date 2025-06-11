@@ -1,0 +1,51 @@
+Climate Conference Analysis
+Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+--1. LEFT JOIN: Show a list of all VIPs and the names of the events they are attending. Include VIPs even if they are not attending any event.
+SELECT vips.last_name, vips.first_name, events.event_name
+FROM vips
+LEFT JOIN events
+ON vips.event = events.event_id
+;
+
+--2. LEFT JOIN: List all VIPs who have made a hotel reservation along with the name of the hotel. Include VIPs who may not have made a reservation.
+SELECT v.member_id, v.first_name, v.last_name, r.hotel
+FROM vips v
+LEFT JOIN reservations r ON v.member_id = r.member_id;
+
+--3.INNER JOIN: List of VIPs who have RSVP’d for the welcome event , along with the event name they are attending.
+SELECT v.first_name, v.last_name
+FROM vips v
+INNER JOIN reservations r ON v.member_id = r.member_id
+WHERE r.welcome_rsvp = 1;
+
+--4. MULTIPLE JOINs: find attendees, event names, and their hotel names.
+SELECT e.event_name, v.first_name, v.last_name, h.hotel_name
+FROM vips v
+INNER JOIN events e ON v.event = e.event_id
+LEFT JOIN reservations r ON v.member_id = r.member_id
+LEFT JOIN hotels h ON r.hotel = h.hotel_id;
+
+--5. SUBQUERY & JOIN: Find VIPs staying at the hotel with the most reservations.
+SELECT v.first_name, v.last_name, h.hotel_name
+FROM vips v
+JOIN reservations r ON v.member_id = r.member_id
+JOIN hotels h ON r.hotel = h.hotel_id
+WHERE r.hotel = (
+    SELECT hotel 
+    FROM reservations 
+    GROUP BY hotel 
+    ORDER BY COUNT(*) DESC 
+    LIMIT 1
+);
+
+--6. SELF JOIN: List each VIP alongside the VIP who provides them feedback.
+SELECT v1.first_name AS feedback_giver, v1.last_name AS giver_last, 
+       v2.first_name AS feedback_receiver, v2.last_name AS receiver_last
+FROM vips v1
+JOIN vips v2 ON v1.provides_feedback_to = v2.member_id;
+
+--7. Aggregation: How many VIPs belong to each associate?
+SELECT assoc_type, COUNT(assoc_type)
+FROM vips
+GROUP BY assoc_type;
