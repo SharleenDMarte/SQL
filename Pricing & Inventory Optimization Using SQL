@@ -1,0 +1,95 @@
+--This project analyzes product pricing, inventory levels, and customer ratings to uncover high-value products, low-stock risks, and category performance insights.
+Using SQL, I identified pricing trends, stock optimization opportunities, and top-rated products to support data-driven business decisions.
+Skills: SQL • Data Analysis • Inventory Optimization • Business Insights
+
+CREATE TABLE superstore (
+    item_id INTEGER PRIMARY KEY,
+    item_name TEXT,
+    category TEXT,
+    price DECIMAL(10, 2),
+    stock_quantity INTEGER,
+    average_rating DECIMAL(3, 2)
+);
+
+INSERT INTO superstore (item_id, item_name, category, price, stock_quantity, average_rating)
+VALUES
+    (1, 'Stainless Steel Cookware Set', 'Kitchen Supplies', 89.99, 50, 4.6),
+    (2, 'Memory Foam Mattress', 'Furnishings', 499.99, 30, 4.8),
+    (3, 'Smart LED TV', 'Electronics', 549.00, 20, 4.5),
+    (4, 'Robot Vacuum Cleaner', 'Appliances', 199.50, 40, 4.3),
+    (5, 'Wireless Bluetooth Speaker', 'Electronics', 39.99, 60, 4.2),
+    (6, 'Non-Stick Baking Set', 'Kitchen Supplies', 29.95, 80, 4.4),
+    (7, 'Cotton Bedding Set', 'Furnishings', 89.00, 25, 4.7),
+    (8, 'Smart Home Security Camera', 'Electronics', 79.95, 15, 4.1),
+    (9, 'Air Purifier', 'Appliances', 129.50, 35, 4.6),
+    (10, 'Premium Coffee Maker', 'Kitchen Supplies', 79.99, 50, 4.9),
+    (11, 'Ergonomic Office Chair', 'Furnishings', 189.00, 20, 4.5),
+    (12, 'Wireless Earbuds', 'Electronics', 49.99, 75, 4.3),
+    (13, 'Slow Cooker', 'Appliances', 49.95, 30, 4.7),
+    (14, 'Cutlery Set', 'Kitchen Supplies', 34.50, 40, 4.4),
+    (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
+
+-- 1. Most expensive items
+--High priced items generate higher margins but require careful inventory management due to lower stock levels.
+
+SELECT item_name, price
+FROM superstore
+ORDER BY price desc
+LIMIT 5
+;
+
+-- 2. Show the items ordered from lowest to highest stock
+--Items with low stock levels show potential stockout risk and may require restocking to meet customer demand.
+
+SELECT item_name, stock_quantity
+FROM superstore
+ORDER BY stock_quantity
+;
+
+-- 3. Show the average price of all items
+--The average item price provides a benchmark for evaluating whether individual products are priced above or below the overall store norm.
+
+SELECT AVG(price) AS average_price
+FROM superstore
+;
+
+-- 4. Show the average price for items in the category of Kitchen Supplies
+--Kitchen Supplies are generally priced at a moderate level, suggesting they are positioned as accessible, high-volume products within the store.
+
+SELECT category, AVG(price) AS average_price
+FROM superstore
+WHERE category = 'Kitchen Supplies'
+;
+
+-- 5. Show the total stock quantity for items in the Electronics category
+--Electronics maintain a limited overall stock level, indicating higher-value items that may require tighter inventory control to avoid lost sales.
+
+SELECT category, SUM(stock_quantity) AS total_stock
+FROM superstore
+WHERE category = 'Electronics'
+GROUP BY category;
+
+--6. What are the top rated products with low stock?
+--Highly rated products with low stock represent high-priority restocking opportunities, as demand is likely strong and customer satisfaction is already proven.
+
+SELECT item_name, average_rating, stock_quantity
+FROM superstore
+WHERE average_rating >= 4.6
+ORDER BY stock_quantity ASC;
+
+--7. What is the revenue potential for products in stock?
+--Categories with the highest potential revenue contribute most to overall sales and should be prioritized for inventory and marketing investment.
+
+SELECT category, SUM(price * stock_quantity) AS potential_revenue
+FROM superstore
+GROUP BY category
+ORDER BY potential_revenue DESC;
+
+
+--Key Takeaways
+--1. High priced products such as electronics and furnishings offer strong revenue potential but require careful inventory management due to lower stock levels.
+--2. Low stock items present potential stockout risks, particularly for popular and high value products, indicating a need for proactive restocking.
+--3. Kitchen Supplies are moderately priced and consistently stocked, positioning them as reliable, high volume products that support steady sales.
+--4. Top-rated products with limited inventory represent high-priority opportunities for restocking, as customer demand and satisfaction are already established.
+--5. Electronics generate the highest potential revenue, making them a critical category for inventory planning and strategic investment.
+--6. Category level analysis highlights where inventory resources and pricing strategies can be optimized to maximize overall business performance.
